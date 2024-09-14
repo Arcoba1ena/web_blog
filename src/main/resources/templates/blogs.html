@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${page}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+            .btn-group {
+            display: flex;
+            gap: 10px; /* Отступ между кнопками */
+            justify-content: center; /* Выравнивание по центру */
+        }
+            .btn {
+            flex: 1; /* Чтобы кнопки занимали одинаковое пространство */
+            max-width: 200px; /* Максимальная ширина кнопок */
+        }
+
+    </style>
+</head>
+<body>
+<header th:insert="base/header :: header"></header>
+
+<div class="blog-blocks p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 text-body-emphasis">Список всех постов</h1>
+    <div class="btn-group">
+        <a href="/blog/add" class="btn btn-primary btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+            </svg>
+            Написать статью
+        </a>
+        <a href="/subscribers" class="btn btn-primary btn-sm">
+            Мои подписки
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mt-1 d-flex flex-column align-items-center">
+        <div th:each="el : ${posts}" class="col-md-6 mb-4">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3 d-flex flex-column align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                     class="bi bi-award-fill" viewBox="0 0 16 16">
+                    <path d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864z"/>
+                    <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1z"/>
+                </svg>
+                <h3 th:text="${el.title}"></h3>
+                <p th:text="${el.text}"></p>
+                <p><strong>Автор:</strong> <span th:text="${el.author}"></span></p>
+                <p><strong>Тэг:</strong> <span th:text="${el.tag}"></span></p>
+                <p><strong>Комментарий от автора:</strong> <span th:text="${el.comment}"></span></p>
+                <a th:href="'/comments/user/' + ${el.id}" class="btn btn-primary btn-sm">
+                    Все комментарии
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor"
+                         class="bi bi-chat-dots" viewBox="0 0 16 16">
+                        <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                        <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2"/>
+                    </svg>
+                </a><br>
+                <a th:href="'/blog/' + ${el.id}" class="btn btn-primary btn-sm">
+                    Редактировать
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
+                         class="bi bi-pencil" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                    </svg>
+                </a><br>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 d-flex flex-column align-items-center">
+        <div class="col-md-6 mb-4">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3 d-flex flex-column align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                     class="bi bi-brightness-alt-high-fill" viewBox="0 0 16 16">
+                    <path d="M8 3a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 3m8 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5m-13.5.5a.5.5 0 0 0 0-1h-2a.5.5 0 0 0 0 1zm11.157-6.157a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m-9.9 2.121a.5.5 0 0 0 .707-.707L3.05 5.343a.5.5 0 1 0-.707.707zM8 7a4 4 0 0 0-4 4 .5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5 4 4 0 0 0-4-4"/>
+                </svg>
+                <h3>"Факты о природе"</h3>
+                <p>Моника Гальяно, доцент кафедры биологии Университета Западной Австралии, провела эксперимент,
+                    исследующий поведение мимозы. Обычно это растение скручивает листья в целях самообороны. Гальяно
+                    решила показать мимозе, что падение не представляет для неё никакой опасности.</p>
+                <p><strong>Автор:</strong> Anonymous</p>
+                <p><strong>Тэги:</strong> <em>#Природа #Наука #Обучение</em></p>
+                <p><strong>Комментарий:</strong> Спасибо за статью! Очень познавательно :)</p>
+
+                <form method="post" action="/subscribe">
+                    <input type="hidden" name="userLogin" value="Anonymous"/>
+                    <button type="submit" class="btn btn-primary btn-sm">Подписаться
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 d-flex flex-column align-items-center">
+        <div class="col-md-6 mb-4">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3 d-flex flex-column align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                     class="bi bi-binoculars-fill" viewBox="0 0 16 16">
+                    <path d="M4.5 1A1.5 1.5 0 0 0 3 2.5V3h4v-.5A1.5 1.5 0 0 0 5.5 1zM7 4v1h2V4h4v.882a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V13H9v-1.5a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5V13H1V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V4zM1 14v.5A1.5 1.5 0 0 0 2.5 16h3A1.5 1.5 0 0 0 7 14.5V14zm8 0v.5a1.5 1.5 0 0 0 1.5 1.5h3a1.5 1.5 0 0 0 1.5-1.5V14zm4-11H9v-.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5z"/>
+                </svg>
+                <h3>"Интересное о животных"</h3>
+                <p>Муравьи никогда не спят. Вместо этого они «отдыхают» по восемь минут два раза в день. Отдых королевы
+                    муравьёв занимает 90 минут в день. Басенджи — единственная собака, которая не может лаять..</p>
+                <p><strong>Автор:</strong> Teacher</p>
+                <p><strong>Тэги:</strong> <em>#Животные #Факты #Интересное</em></p>
+                <p><strong>Комментарий:</strong> Круто! Напиши еще статей!</p>
+
+                <form method="post" action="/subscribe">
+                    <input type="hidden" name="userLogin" value="Teacher"/>
+                    <button type="submit" class="btn btn-primary btn-sm">Подписаться
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 d-flex flex-column align-items-center">
+        <div class="col-md-6 mb-4">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3 d-flex flex-column align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                     class="bi bi-bullseye" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10m0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/>
+                    <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8"/>
+                    <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                </svg>
+                <h3>"Необъятный космос"</h3>
+                <p>Первым человеком, который заглянул в космос с помощью телескопа, был Галилей, почти 400 лет
+                    назад.</p>
+                <p><strong>Автор:</strong>FactNews</p>
+                <p><strong>Тэги:</strong> <em>#История #Космос #Наука</em></p>
+                <p><strong>Комментарий:</strong> Круто! Хотим еще статей про космос!</p>
+
+                <form method="post" action="/subscribe">
+                    <input type="hidden" name="userLogin" value="FactNews"/>
+                    <button type="submit" class="btn btn-primary btn-sm">Подписаться
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 d-flex flex-column align-items-center">
+        <div class="col-md-6 mb-4">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3 d-flex flex-column align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-egg"
+                     viewBox="0 0 16 16">
+                    <path d="M8 15a5 5 0 0 1-5-5c0-1.956.69-4.286 1.742-6.12.524-.913 1.112-1.658 1.704-2.164C7.044 1.206 7.572 1 8 1s.956.206 1.554.716c.592.506 1.18 1.251 1.704 2.164C12.31 5.714 13 8.044 13 10a5 5 0 0 1-5 5m0 1a6 6 0 0 0 6-6c0-4.314-3-10-6-10S2 5.686 2 10a6 6 0 0 0 6 6"/>
+                </svg>
+                <h3>"Интересное о кулинарии"</h3>
+                <p>Куриные яйца полезны и питательны, любые. Но какие самые полезные? В этой статье разбираемся с
+                    преимуществами и недостатками сырых, вареных и жареных яиц...</p>
+                <p><strong>Автор:</strong>FoodTv</p>
+                <p><strong>Тэги:</strong> <em>#Кулинария #Рецепты</em></p>
+                <p><strong>Комментарий:</strong> Интересно что же будет дальше?</p>
+
+                <form method="post" action="/subscribe">
+                    <input type="hidden" name="userLogin" value="FoodTv"/>
+                    <button type="submit" class="btn btn-primary btn-sm">Подписаться
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-1 d-flex flex-column align-items-center">
+    <div class="col-md-6 mb-4">
+        <div class="h-100 p-3 bg-body-tertiary border rounded-3 d-flex flex-column align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-car-front"
+                 viewBox="0 0 16 16">
+                <path d="M4 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0m10 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2zM4.862 4.276 3.906 6.19a.51.51 0 0 0 .497.731c.91-.073 2.35-.17 3.597-.17s2.688.097 3.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 10.691 4H5.309a.5.5 0 0 0-.447.276"/>
+                <path d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679q.05.242.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.8.8 0 0 0 .381-.404l.792-1.848ZM4.82 3a1.5 1.5 0 0 0-1.379.91l-.792 1.847a1.8 1.8 0 0 1-.853.904.8.8 0 0 0-.43.564L1.03 8.904a1.5 1.5 0 0 0-.03.294v.413c0 .796.62 1.448 1.408 1.484 1.555.07 3.786.155 5.592.155s4.037-.084 5.592-.155A1.48 1.48 0 0 0 15 9.611v-.413q0-.148-.03-.294l-.335-1.68a.8.8 0 0 0-.43-.563 1.8 1.8 0 0 1-.853-.904l-.792-1.848A1.5 1.5 0 0 0 11.18 3z"/>
+            </svg>
+            <h3>"Машины и их особенности"</h3>
+            <p>Эксперт рассказал об особенностях пневмоподвески некоторых авто....</p>
+            <p><strong>Автор:</strong>CarsShop</p>
+            <p><strong>Тэги:</strong> <em>#Машины #Колеса</em></p>
+            <p><strong>Комментарий:</strong> Так и не понял, нормально ли это!?</p>
+
+            <form method="post" action="/subscribe">
+                <input type="hidden" name="userLogin" value="CarsShop"/>
+                <button type="submit" class="btn btn-primary btn-sm">Подписаться
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="py-2 text-center text-body-secondary">
+    <div th:insert="base/footer :: footer"></div>
+</footer>
+</body>
+</html>

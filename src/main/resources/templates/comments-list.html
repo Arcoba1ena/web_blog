@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Комментарии пользователя</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="base/header :: header"></header>
+<main>
+    <div class="container mt-5 mb-5">
+        <h1 class="display-4 fw-bold text-body-emphasis">Комментарии к статье</h1>
+        <div th:each="comment : ${comments}">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p th:text="${comment.comment}"></p>
+                </div>
+            </div>
+        </div>
+        <a th:href="@{/blog/{id}/comments/add(id=${userId})}" class="btn btn-primary btn-sm">Комментировать</a><br>
+        <a href="/blogs" class="mt-2 btn btn-primary btn-sm">Назад</a><br>
+    </div>
+</main>
+<footer class="py-2 text-center text-body-secondary">
+    <div th:insert="base/footer :: footer"></div>
+</footer>
+</body>
+</html>
